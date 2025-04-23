@@ -1,17 +1,17 @@
-export type CompareFunction = <T>(a: T, b: T) => boolean;
+import {Comparator, CompareFunction} from "../utils";
 
 export class InsertionSort<T> {
-    private comparator: CompareFunction;
+    private comparator: Comparator<T>;
 
     constructor(compareFunction: CompareFunction) {
-        this.comparator = compareFunction;
+        this.comparator = new Comparator(compareFunction);
     }
 
     public sort(data: T[]): T[] {
         for(let i = 1; i < data.length; i++) {
-            let j = i -1;
+            let j = i-1;
 
-            while(j >= 0 && this.comparator(data[j+1], data[j])) {
+            while(j >= 0 && this.comparator.lessThan(data[j+1], data[j])) {
                 const temp = data[j+1];
                 data[j+1] = data[j];
                 data[j] = temp;
