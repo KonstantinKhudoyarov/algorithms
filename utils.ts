@@ -1,4 +1,4 @@
-type CompareReturnValue = 1 | 0;
+type CompareReturnValue = -1 | 0 | 1;
 export type CompareFunction = <T>(a: T, b: T) => CompareReturnValue;
 
 
@@ -6,7 +6,15 @@ export class Comparator<T> {
     private compareFn: CompareFunction;
 
     constructor(compareFn: CompareFunction) {
-        this.compareFn = compareFn;
+        this.compareFn = compareFn ?? Comparator.defaultCompareFn;
+    }
+
+    public static defaultCompareFn<T>(a: T, b: T): CompareReturnValue {
+        if (a === b) {
+            return 0;
+        }
+
+        return a < b ? -1 : 1;
     }
 
     public equal(a: T, b: T): boolean {
